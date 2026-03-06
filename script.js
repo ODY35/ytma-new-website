@@ -10,7 +10,10 @@ const products = [
 let activeFilter = "all";
 let currentLang = "fr";
 
-const HERO_MEDIA = { type: "video", src: "https://sample-videos.com/video321/mp4/720/big_buck_bunny_720p_1mb.mp4" };
+const HERO_MEDIA = { type: "image", src: "./assets/logo.png" };
+
+const PLACEHOLDER_IMG =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='480'%3E%3Crect width='100%25' height='100%25' fill='%23111111'/%3E%3Ctext x='50%25' y='50%25' fill='%23aaaaaa' font-size='22' dominant-baseline='middle' text-anchor='middle'%3EImage unavailable%3C/text%3E%3C/svg%3E";
 
 const i18n = {
   fr: {
@@ -101,6 +104,12 @@ function formatPrice(p) {
   return new Intl.NumberFormat("fr-FR").format(p) + " " + "XAF";
 }
 
+function sanitizeImageUrl(url) {
+  if (!url) return PLACEHOLDER_IMG;
+  if (url.startsWith("./") || url.startsWith("data:")) return url;
+  return PLACEHOLDER_IMG;
+}
+
 function renderHeroMedia() {
   const display = document.getElementById("heroMediaDisplay");
   display.innerHTML = "";
@@ -126,7 +135,7 @@ function renderProducts(list) {
     el.innerHTML = `
       <div class="card-media">
         <span class="card-badge">${p.badge}</span>
-        <img src="${p.image}" alt="${p.name}" />
+        <img src="${sanitizeImageUrl(p.image)}" alt="${p.name}" referrerpolicy="no-referrer" />
       </div>
       <div class="card-body">
         <div class="card-title">${p.name}</div>
