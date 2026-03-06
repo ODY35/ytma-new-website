@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YTMA Lingerie – Libreville, Gabon</title>
+    <meta name="description" content="YTMA – Luxury lingerie collections designed with specialized couturiers in Libreville, Gabon." />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="brand">
+        <img class="logo" alt="YTMA Logo" src="./assets/logo.png" />
+        <div class="brand-text">
+          <h1>YTMA</h1>
+          <p class="tagline" data-i18n="header.tagline">Luxury Lingerie – Libreville, Gabon</p>
+        </div>
+      </div>
+      <div class="contact">
+        <a href="tel:+24174650882" class="phone">+241 74650882</a>
+        <span class="separator">•</span>
+        <span class="location">Libreville, Gabon</span>
+        <span class="separator">•</span>
+        <div class="lang-switch">
+          <button class="lang active" data-lang="fr">FR</button>
+          <button class="lang" data-lang="en">EN</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+          <h2 data-i18n="hero.title">Collections de Lingerie</h2>
+          <p data-i18n="hero.subtitle">Pièces d’exception, lignes dorées, élégance rouge et noire.</p>
+        </div>
+        <div id="heroMediaDisplay" class="hero-media"></div>
+      </section>
+
+      <section class="collection-controls">
+        <div class="controls-left">
+          <span class="control-title" data-i18n="controls.sort">Trier</span>
+          <select id="sortSelect">
+            <option value="featured" data-i18n="sort.featured">Mise en avant</option>
+            <option value="price-asc" data-i18n="sort.priceAsc">Prix: bas → haut</option>
+            <option value="price-desc" data-i18n="sort.priceDesc">Prix: haut → bas</option>
+            <option value="name-asc" data-i18n="sort.nameAsc">Nom: A → Z</option>
+            <option value="name-desc" data-i18n="sort.nameDesc">Nom: Z → A</option>
+          </select>
+        </div>
+        <div class="controls-right">
+          <span class="control-title" data-i18n="controls.categories">Catégories</span>
+          <div class="chips">
+            <button class="chip active" data-filter="all" data-i18n="cat.all">Toutes</button>
+            <button class="chip" data-filter="bras" data-i18n="cat.bras">Soutiens-gorge</button>
+            <button class="chip" data-filter="briefs" data-i18n="cat.briefs">Culottes</button>
+            <button class="chip" data-filter="sets" data-i18n="cat.sets">Ensembles</button>
+            <button class="chip" data-filter="bodysuits" data-i18n="cat.bodysuits">Body</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="product-grid" id="productGrid"></section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-top">
+        <div>
+          <h3>YTMA</h3>
+          <p data-i18n="footer.brandDesc">Créations de lingerie avec couturières spécialisées.</p>
+          <p>Libreville, Gabon • <a href="tel:+24174650882">+241 74650882</a></p>
+        </div>
+        <div>
+          <h4 data-i18n="footer.paymentsTitle">Paiements acceptés</h4>
+          <ul class="payments-list">
+            <li>Mobile Money (Gabon)</li>
+            <li>Visa</li>
+            <li>PayPal</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span class="gold-line"></span>
+        <p data-i18n="footer.copyright">© 2026 YTMA • Tous droits réservés</p>
+      </div>
+    </footer>
+
+    <div class="modal-backdrop" id="paymentModal">
+      <div class="modal">
+        <button class="modal-close" id="paymentClose" aria-label="Fermer">×</button>
+        <h3 class="modal-title" data-i18n="modal.title">Paiement</h3>
+        <p id="modalProductTitle" class="modal-subtitle"></p>
+        <div class="tabs">
+          <button class="tab active" data-tab="mobile" data-i18n="tabs.mobile">Mobile Money</button>
+          <button class="tab" data-tab="visa" data-i18n="tabs.visa">Visa</button>
+          <button class="tab" data-tab="paypal" data-i18n="tabs.paypal">PayPal</button>
+        </div>
+        <div class="tab-content">
+          <div class="tab-pane active" id="tab-mobile">
+            <label><span data-i18n="modal.operatorLabel">Opérateur</span>
+              <select id="mmOperator">
+                <option>Airtel Money</option>
+                <option>Moov Money</option>
+                <option>Banque Locale</option>
+              </select>
+            </label>
+            <label><span data-i18n="modal.phoneLabel">Numéro de téléphone</span>
+              <input id="mmPhone" type="tel" placeholder="+241 ..." />
+            </label>
+            <button id="mmPayBtn" class="btn btn-gold-wide" data-i18n="modal.mmConfirm">Confirmer Mobile Money</button>
+          </div>
+          <div class="tab-pane" id="tab-visa">
+            <label><span data-i18n="modal.nameOnCard">Nom sur la carte</span>
+              <input type="text" id="cardName" placeholder="Nom complet" />
+            </label>
+            <label><span data-i18n="modal.cardNumber">Numéro de carte</span>
+              <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" />
+            </label>
+            <div class="row">
+              <label><span data-i18n="modal.exp">Expiration</span>
+                <input type="text" id="cardExp" placeholder="MM/AA" />
+              </label>
+              <label><span data-i18n="modal.cvv">CVV</span>
+                <input type="text" id="cardCvv" placeholder="***" />
+              </label>
+            </div>
+            <button id="visaPayBtn" class="btn btn-gold-wide" data-i18n="modal.visaPay">Payer par Visa</button>
+          </div>
+          <div class="tab-pane" id="tab-paypal">
+            <p data-i18n="modal.paypalText">Vous serez redirigé vers PayPal pour terminer le paiement.</p>
+            <button id="paypalPayBtn" class="btn btn-gold-wide" data-i18n="modal.paypalContinue">Continuer vers PayPal</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+  </html>
