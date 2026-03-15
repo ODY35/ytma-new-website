@@ -20,7 +20,7 @@ const i18n = {
     "page.title": "YTMA Lingerie – Libreville, Gabon",
     "header.tagline": "Luxury Lingerie – Libreville, Gabon",
     "hero.title": "YTMA",
-    "hero.subtitle": "Pour le Rayonnement de Votre Intimité",
+    "hero.subtitle": "Le rayonnement de votre intimité",
     "hero.upload": "Ajouter image ou vidéo",
     "controls.sort": "Trier",
     "controls.categories": "Catégories",
