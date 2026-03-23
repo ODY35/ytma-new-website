@@ -106,7 +106,7 @@ function formatPrice(p) {
 
 function sanitizeImageUrl(url) {
   if (!url) return PLACEHOLDER_IMG;
-  if (url.startsWith("./") || url.startsWith("data:")) return url;
+  if (url.startsWith("./") || url.startsWith("data:") || url.startsWith("http://") || url.startsWith("https://")) return url;
   return PLACEHOLDER_IMG;
 }
 
