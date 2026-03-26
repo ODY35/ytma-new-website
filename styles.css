@@ -85,6 +85,9 @@ select{background:#151515;color:#fff;border:1px solid rgba(212,175,55,0.35);bord
 .about-layout{
   display:grid;grid-template-columns:1.2fr 0.8fr;gap:24px;padding:24px
 }
+.about-page .hero{min-height:24vh}
+.about-page .hero-content{padding:16px}
+.about-page .about-layout{gap:16px;padding:8px 24px 24px}
 .about-text{
   display:block;background:#111;border:1px solid rgba(212,175,55,0.35);border-radius:12px;padding:18px;line-height:1.7;opacity:0.96
 }
