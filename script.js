@@ -120,6 +120,7 @@ function sanitizeImageUrl(url) {
 
 function renderHeroMedia() {
   const display = document.getElementById("heroMediaDisplay");
+  if (!display) return;
   display.innerHTML = "";
   if (!HERO_MEDIA || !HERO_MEDIA.src) return;
   if ((HERO_MEDIA.type || "").toLowerCase() === "video") {
@@ -136,6 +137,7 @@ function renderHeroMedia() {
 
 function renderProducts(list) {
   const grid = document.getElementById("productGrid");
+  if (!grid) return;
   grid.innerHTML = "";
   list.forEach(p => {
     const el = document.createElement("article");
@@ -194,21 +196,21 @@ function closeModal() {
   document.getElementById("paymentModal").classList.remove("show");
 }
 function wireModal() {
-  document.getElementById("paymentClose").addEventListener("click", closeModal);
-  document.getElementById("mmPayBtn").addEventListener("click", ()=>{
+  const backdrop = document.getElementById("paymentModal");
+  if (!backdrop) return;
+  const closeBtn = document.getElementById("paymentClose");
+  const mmBtn = document.getElementById("mmPayBtn");
+  const visaBtn = document.getElementById("visaPayBtn");
+  const paypalBtn = document.getElementById("paypalPayBtn");
+  if (closeBtn) closeBtn.addEventListener("click", closeModal);
+  if (mmBtn) mmBtn.addEventListener("click", ()=>{
     const operator = document.getElementById("mmOperator").value;
     const phone = document.getElementById("mmPhone").value;
     alert(i18n[currentLang]["alerts.mm"]);
     closeModal();
   });
-  document.getElementById("visaPayBtn").addEventListener("click", ()=>{
-    alert(i18n[currentLang]["alerts.visa"]);
-    closeModal();
-  });
-  document.getElementById("paypalPayBtn").addEventListener("click", ()=>{
-    alert(i18n[currentLang]["alerts.paypal"]);
-    closeModal();
-  });
+  if (visaBtn) visaBtn.addEventListener("click", ()=>{ alert(i18n[currentLang]["alerts.visa"]); closeModal(); });
+  if (paypalBtn) paypalBtn.addEventListener("click", ()=>{ alert(i18n[currentLang]["alerts.paypal"]); closeModal(); });
   document.querySelectorAll(".tab").forEach(tab=>{
     tab.addEventListener("click", ()=>{
       document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
@@ -221,7 +223,9 @@ function wireModal() {
 }
 
 function wireBuyButtons() {
-  document.getElementById("productGrid").addEventListener("click", (e)=>{
+  const grid = document.getElementById("productGrid");
+  if (!grid) return;
+  grid.addEventListener("click", (e)=>{
     const btn = e.target.closest(".btn-buy");
     if (!btn) return;
     const id = Number(btn.dataset.id);
