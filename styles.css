@@ -80,6 +80,24 @@ select{background:#151515;color:#fff;border:1px solid rgba(212,175,55,0.35);bord
 .product-grid{
   display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px;padding:24px;
 }
+.about-page{padding-bottom:24px}
+.about-title{font-family:Aesthetica, Playfair Display, serif}
+.about-layout{
+  display:grid;grid-template-columns:1.2fr 0.8fr;gap:24px;padding:24px
+}
+.about-text{
+  display:none;background:#111;border:1px solid rgba(212,175,55,0.35);border-radius:12px;padding:18px;line-height:1.7;opacity:0.96
+}
+.about-text.show{display:block}
+.owner-photo{
+  height:360px;border:1px solid rgba(212,175,55,0.45);border-radius:12px;background:
+    radial-gradient(200px 120px at 30% 30%, rgba(212,175,55,0.18), transparent 60%),
+    linear-gradient(180deg,#141414,#0e0e0e);
+  display:grid;place-items:center;color:#aaa
+}
+.owner-photo::after{
+  content:'Owner Photo';font-weight:600;letter-spacing:1px;opacity:0.7
+}
 .card{
   background:linear-gradient(180deg,#111,#0d0d0d);border:1px solid rgba(212,175,55,0.25);border-radius:12px;overflow:hidden;
   box-shadow:0 6px 18px rgba(0,0,0,0.35)

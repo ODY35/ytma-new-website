@@ -21,8 +21,10 @@ const i18n = {
     "header.tagline": "Luxury Lingerie – Libreville, Gabon",
     "hero.title": "Ytma",
     "hero.subtitle": "Le rayonnement de votre intimité",
+    "nav.about": "À propos",
     "about.title": "À propos",
     "about.text": "Née de la passion de sublimer l'intimité féminine, la marque 'YTMA' se spécialise dans la création et la vente de pièces uniques de sous-vêtements féminins. Animée par l’ambition de créer des pièces dans lesquelles chacune peut se reconnaître, \"YTMA\" célèbre toutes les femmes, convaincue que chacune mérite de se sentir belle, libre et confiante, sans compromis. Sa vision principale est de valoriser toutes les morphologies, d’honorer la diversité et de privilégier des matières responsables. À long terme, \"YTMA\" aspire à faire de la lingerie un véritable vecteur d’expression personnelle, en devenant une référence internationale engagée en faveur de l’innovation textile, de la durabilité et de l’affirmation de soi.",
+    "about.toggle": "Voir l'histoire",
     "hero.upload": "Ajouter image ou vidéo",
     "controls.sort": "Trier",
     "controls.categories": "Catégories",
@@ -64,8 +66,10 @@ const i18n = {
     "header.tagline": "Luxury Lingerie – Libreville, Gabon",
     "hero.title": "Ytma",
     "hero.subtitle": "For the Radiance of Your Intimacy",
+    "nav.about": "About",
     "about.title": "About Us",
     "about.text": "Born from a passion for enhancing feminine intimacy, the ‘YTMA’ brand specializes in designing and selling unique pieces of women’s underwear. Driven by the ambition to create pieces in which every woman can recognize herself, YTMA celebrates all women, convinced that each one deserves to feel beautiful, free, and confident—without compromise. Its core vision is to value all body types, honor diversity, and prioritize responsible materials. In the long term, YTMA aspires to make lingerie a true vehicle of personal expression, becoming an international reference committed to textile innovation, sustainability, and self-affirmation.",
+    "about.toggle": "Show Story",
     "hero.upload": "Add image or video",
     "controls.sort": "Sort",
     "controls.categories": "Categories",
@@ -260,6 +264,16 @@ function wireLangSwitch() {
   });
 }
 
+function wireAboutToggle() {
+  const toggle = document.getElementById("aboutToggle");
+  const text = document.getElementById("aboutText");
+  if (toggle && text) {
+    toggle.addEventListener("click", ()=>{
+      text.classList.toggle("show");
+    });
+  }
+}
+
 function init() {
   renderProducts(products);
   wireControls();
@@ -268,6 +282,7 @@ function init() {
   wireLangSwitch();
   translateStatic();
   renderHeroMedia();
+  wireAboutToggle();
 }
 
 document.addEventListener("DOMContentLoaded", init);
