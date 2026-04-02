@@ -1,10 +1,7 @@
 const products = [
-  { id: 1, name: "Ensemble Satin Doré", price: 89000, currency: "XAF", category: "sets", badge: "Nouveau", image: "https://images.unsplash.com/photo-1608219959301-fff314f0b1f2?q=80&w=1000&auto=format&fit=crop" },
-  { id: 2, name: "Soutien-gorge Rouge Luxe", price: 42000, currency: "XAF", category: "bras", badge: "Best Seller", image: "https://images.unsplash.com/photo-1581803118522-7b72b36a1d5f?q=80&w=1000&auto=format&fit=crop" },
-  { id: 3, name: "Culotte Velours Noir", price: 26000, currency: "XAF", category: "briefs", badge: "Limitée", image: "https://images.unsplash.com/photo-1515876305429-0d3b09de5ca4?q=80&w=1000&auto=format&fit=crop" },
-  { id: 4, name: "Body Ébène", price: 68000, currency: "XAF", category: "bodysuits", badge: "Élite", image: "https://images.unsplash.com/photo-1520975954732-35dd22299623?q=80&w=1000&auto=format&fit=crop" },
-  { id: 5, name: "Ensemble Rubis", price: 91000, currency: "XAF", category: "sets", badge: "Nouveau", image: "https://images.unsplash.com/photo-1595433707802-3b1ae0f707b6?q=80&w=1000&auto=format&fit=crop" },
-  { id: 6, name: "Soutien-gorge Doré", price: 49000, currency: "XAF", category: "bras", badge: "Édition", image: "https://images.unsplash.com/photo-1540999972307-345fda9f5d1f?q=80&w=1000&auto=format&fit=crop" }
+  { id: 1, name: "Ensemble Lingerie 01", price: 89000, currency: "XAF", category: "sets", badge: "Nouveau", image: "./assets/lingerie_01.png" },
+  { id: 2, name: "Ensemble Lingerie 02", price: 42000, currency: "XAF", category: "sets", badge: "Best Seller", image: "./assets/lingerie_02.png" },
+  { id: 3, name: "Ensemble Lingerie 03", price: 26000, currency: "XAF", category: "sets", badge: "Limitée", image: "./assets/lingerie_03.png" }
 ];
 
 let activeFilter = "all";
