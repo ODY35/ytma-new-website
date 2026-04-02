@@ -7,7 +7,7 @@ const products = [
 let activeFilter = "all";
 let currentLang = "fr";
 
-const HERO_MEDIA = { type: "image", src: "./assets/hero.jpg" };
+const HERO_MEDIA = { type: "image", src: "./assets/new_hero.png" };
 
 const PLACEHOLDER_IMG =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='480'%3E%3Crect width='100%25' height='100%25' fill='%23111111'/%3E%3Ctext x='50%25' y='50%25' fill='%23aaaaaa' font-size='22' dominant-baseline='middle' text-anchor='middle'%3EImage unavailable%3C/text%3E%3C/svg%3E";
