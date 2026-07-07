@@ -1,10 +1,15 @@
 {
   "name": "ytma-new-website",
   "version": "1.0.0",
-  "description": "",
-  "main": "script.js",
+  "description": "YTMA Lingerie website",
   "scripts": {
+    "dev": "node server.js",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "react-scripts": "5.0.1"
   },
   "repository": {
     "type": "git",
@@ -13,9 +18,20 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/ODY35/ytma-new-website/issues"
   },
-  "homepage": "https://github.com/ODY35/ytma-new-website#readme"
+  "homepage": "https://ody35.github.io/ytma-new-website",
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }
