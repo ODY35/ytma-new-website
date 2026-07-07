@@ -1,16 +1,31 @@
-const products = [
-  { id: 1, name: "Ensemble Lingerie 01", price: 89000, currency: "XAF", category: "sets", badge: "Nouveau", image: "./assets/lingerie_01.png" },
-  { id: 2, name: "Ensemble Lingerie 02", price: 42000, currency: "XAF", category: "sets", badge: "Best Seller", image: "./assets/lingerie_02.png" },
-  { id: 3, name: "Ensemble Lingerie 03", price: 26000, currency: "XAF", category: "sets", badge: "Limitée", image: "./assets/lingerie_03.png" }
-];
+const STORAGE_KEY_PRODUCTS = "ytma_products";
+const STORAGE_KEY_CONTACT = "ytma_contact";
+const STORAGE_KEY_OWNER_CODE = "ytma_owner_code";
+const STORAGE_KEY_OWNER_PHOTO = "ytma_owner_photo";
 
+let products = [];
 let activeFilter = "all";
 let currentLang = "fr";
+let isOwner = false;
 
 const HERO_MEDIA = { type: "image", src: "./assets/new_hero.png" };
 
 const PLACEHOLDER_IMG =
   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='640' height='480'%3E%3Crect width='100%25' height='100%25' fill='%23111111'/%3E%3Ctext x='50%25' y='50%25' fill='%23aaaaaa' font-size='22' dominant-baseline='middle' text-anchor='middle'%3EImage unavailable%3C/text%3E%3C/svg%3E";
+
+const DEFAULT_CONTACT = {
+  phone: "+241 74 66 61 66",
+  account: "+241 74 66 61 66"
+};
+
+const DEFAULT_PRODUCTS = [
+  { id: 1, name: "Ensemble Lingerie 01", price: 89000, currency: "XAF", category: "sets", badge: "Nouveau", image: "./assets/lingerie_01.png" },
+  { id: 2, name: "Ensemble Lingerie 02", price: 42000, currency: "XAF", category: "sets", badge: "Best Seller", image: "./assets/lingerie_02.png" },
+  { id: 3, name: "Ensemble Lingerie 03", price: 26000, currency: "XAF", category: "sets", badge: "Limitée", image: "./assets/lingerie_03.png" },
+  { id: 4, name: "Soutien-gorge Élégant", price: 35000, currency: "XAF", category: "bras", badge: "", image: "./assets/lingerie_01.png" },
+  { id: 5, name: "Culotte Satinée", price: 18000, currency: "XAF", category: "briefs", badge: "", image: "./assets/lingerie_02.png" },
+  { id: 6, name: "Body Sensuel", price: 75000, currency: "XAF", category: "bodysuits", badge: "Nouveau", image: "./assets/lingerie_03.png" }
+];
 
 const i18n = {
   fr: {
@@ -105,6 +120,64 @@ const i18n = {
   }
 };
 
+function loadFromStorage() {
+  try {
+    const savedProducts = localStorage.getItem(STORAGE_KEY_PRODUCTS);
+    if (savedProducts) {
+      products = JSON.parse(savedProducts);
+    } else {
+      products = [...DEFAULT_PRODUCTS];
+    }
+
+    const savedContact = localStorage.getItem(STORAGE_KEY_CONTACT);
+    let contact = DEFAULT_CONTACT;
+    if (savedContact) {
+      contact = JSON.parse(savedContact);
+    }
+    updateContactDisplay(contact);
+
+    if (!localStorage.getItem(STORAGE_KEY_OWNER_CODE)) {
+      localStorage.setItem(STORAGE_KEY_OWNER_CODE, "owner123");
+    }
+
+    renderOwnerPhoto();
+  } catch (e) {
+    products = [...DEFAULT_PRODUCTS];
+    updateContactDisplay(DEFAULT_CONTACT);
+  }
+}
+
+function renderOwnerPhoto() {
+  const ownerPhotoEl = document.querySelector(".owner-photo");
+  if (!ownerPhotoEl) return;
+  const savedPhoto = localStorage.getItem(STORAGE_KEY_OWNER_PHOTO);
+  if (savedPhoto) {
+    ownerPhotoEl.innerHTML = `<img src="${savedPhoto}" alt="Photo du propriétaire" style="width:100%;height:100%;object-fit:cover;border-radius:12px;">`;
+  } else {
+    ownerPhotoEl.innerHTML = `<span style="opacity:0.7;">Photo du propriétaire</span>`;
+  }
+}
+
+function saveProducts() {
+  localStorage.setItem(STORAGE_KEY_PRODUCTS, JSON.stringify(products));
+}
+
+function saveContact(contact) {
+  localStorage.setItem(STORAGE_KEY_CONTACT, JSON.stringify(contact));
+}
+
+function updateContactDisplay(contact) {
+  const phoneElements = document.querySelectorAll(".phone, a[href^='tel:']");
+  phoneElements.forEach(el => {
+    if (el.tagName === "A") {
+      el.href = `tel:${contact.phone.replace(/\s/g, "")}`;
+      el.textContent = contact.phone;
+    } else {
+      el.textContent = contact.phone;
+    }
+  });
+}
+
 function formatPrice(p) {
   return new Intl.NumberFormat("fr-FR").format(p) + " " + "XAF";
 }
@@ -141,7 +214,7 @@ function renderProducts(list) {
     el.className = "card";
     el.innerHTML = `
       <div class="card-media">
-        <span class="card-badge">${p.badge}</span>
+        <span class="card-badge">${p.badge || ""}</span>
         <img src="${sanitizeImageUrl(p.image)}" alt="${p.name}" referrerpolicy="no-referrer" />
       </div>
       <div class="card-body">
@@ -154,6 +227,21 @@ function renderProducts(list) {
       </div>
     `;
     grid.appendChild(el);
+  });
+}
+
+function renderOwnerProductList() {
+  const listEl = document.getElementById("prodList");
+  if (!listEl) return;
+  listEl.innerHTML = "";
+  products.forEach(p => {
+    const item = document.createElement("div");
+    item.className = "owner-list-item";
+    item.innerHTML = `
+      <span>${p.name} - ${formatPrice(p.price)}</span>
+      <button data-del-id="${p.id}">Supprimer</button>
+    `;
+    listEl.appendChild(item);
   });
 }
 
@@ -275,7 +363,137 @@ function wireAboutToggle() {
   }
 }
 
+function openOwnerModal() {
+  document.getElementById("ownerModal").classList.add("show");
+  if (isOwner) {
+    document.getElementById("ownerAuth").style.display = "none";
+    document.getElementById("ownerPanel").style.display = "block";
+    renderOwnerProductList();
+    const savedContact = JSON.parse(localStorage.getItem(STORAGE_KEY_CONTACT)) || DEFAULT_CONTACT;
+    document.getElementById("ownerPhone").value = savedContact.phone;
+    document.getElementById("ownerAccount").value = savedContact.account;
+    const savedPhoto = localStorage.getItem(STORAGE_KEY_OWNER_PHOTO) || "";
+    const photoUrlInput = document.getElementById("ownerPhotoUrl");
+    if (photoUrlInput) photoUrlInput.value = savedPhoto;
+  }
+}
+
+function closeOwnerModal() {
+  document.getElementById("ownerModal").classList.remove("show");
+}
+
+function wireOwnerModal() {
+  const toggleBtn = document.getElementById("ownerToggle");
+  const closeBtn = document.getElementById("ownerClose");
+  const loginBtn = document.getElementById("ownerLoginBtn");
+  const addProdBtn = document.getElementById("addProdBtn");
+  const saveContactBtn = document.getElementById("saveContactBtn");
+
+  if (toggleBtn) toggleBtn.addEventListener("click", openOwnerModal);
+  if (closeBtn) closeBtn.addEventListener("click", closeOwnerModal);
+
+  if (loginBtn) loginBtn.addEventListener("click", () => {
+    const codeInput = document.getElementById("ownerCode");
+    const correctCode = localStorage.getItem(STORAGE_KEY_OWNER_CODE) || "owner123";
+    if (codeInput.value === correctCode) {
+      isOwner = true;
+      document.getElementById("ownerAuth").style.display = "none";
+      document.getElementById("ownerPanel").style.display = "block";
+      renderOwnerProductList();
+      const savedContact = JSON.parse(localStorage.getItem(STORAGE_KEY_CONTACT)) || DEFAULT_CONTACT;
+      document.getElementById("ownerPhone").value = savedContact.phone;
+      document.getElementById("ownerAccount").value = savedContact.account;
+    } else {
+      alert("Code incorrect !");
+    }
+  });
+
+  document.querySelectorAll(".owner-tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      document.querySelectorAll(".owner-tab").forEach(t => t.classList.remove("active"));
+      document.querySelectorAll(".owner-tab-pane").forEach(p => p.classList.remove("active"));
+      tab.classList.add("active");
+      const target = tab.dataset.ownerTab;
+      document.getElementById("owner-tab-" + target).classList.add("active");
+    });
+  });
+
+  if (addProdBtn) addProdBtn.addEventListener("click", () => {
+    const name = document.getElementById("prodName").value.trim();
+    const price = parseInt(document.getElementById("prodPrice").value);
+    const category = document.getElementById("prodCategory").value;
+    const badge = document.getElementById("prodBadge").value.trim();
+    const image = document.getElementById("prodImage").value.trim();
+
+    if (!name || !price) {
+      alert("Veuillez remplir le nom et le prix du produit !");
+      return;
+    }
+
+    const newProduct = {
+      id: Date.now(),
+      name,
+      price,
+      currency: "XAF",
+      category,
+      badge: badge || "",
+      image: image || PLACEHOLDER_IMG
+    };
+
+    products.push(newProduct);
+    saveProducts();
+    renderOwnerProductList();
+    applyFilter();
+
+    document.getElementById("prodName").value = "";
+    document.getElementById("prodPrice").value = "";
+    document.getElementById("prodBadge").value = "";
+    document.getElementById("prodImage").value = "";
+
+    alert("Produit ajouté avec succès !");
+  });
+
+  const prodListEl = document.getElementById("prodList");
+  if (prodListEl) prodListEl.addEventListener("click", (e) => {
+    const delBtn = e.target.closest("button[data-del-id]");
+    if (!delBtn) return;
+    const idToDel = Number(delBtn.dataset.delId);
+    if (confirm("Êtes-vous sûr de vouloir supprimer ce produit ?")) {
+      products = products.filter(p => p.id !== idToDel);
+      saveProducts();
+      renderOwnerProductList();
+      applyFilter();
+    }
+  });
+
+  const saveOwnerPhotoBtn = document.getElementById("saveOwnerPhotoBtn");
+  if (saveOwnerPhotoBtn) saveOwnerPhotoBtn.addEventListener("click", () => {
+    const photoUrl = document.getElementById("ownerPhotoUrl").value.trim();
+    if (!photoUrl) {
+      alert("Veuillez entrer l'URL de la photo !");
+      return;
+    }
+    localStorage.setItem(STORAGE_KEY_OWNER_PHOTO, photoUrl);
+    renderOwnerPhoto();
+    alert("Photo du propriétaire sauvegardée !");
+  });
+
+  if (saveContactBtn) saveContactBtn.addEventListener("click", () => {
+    const phone = document.getElementById("ownerPhone").value.trim();
+    const account = document.getElementById("ownerAccount").value.trim();
+    if (!phone || !account) {
+      alert("Veuillez remplir tous les champs !");
+      return;
+    }
+    const contact = { phone, account };
+    saveContact(contact);
+    updateContactDisplay(contact);
+    alert("Coordonnées sauvegardées !");
+  });
+}
+
 function init() {
+  loadFromStorage();
   renderProducts(products);
   wireControls();
   wireModal();
@@ -284,6 +502,7 @@ function init() {
   translateStatic();
   renderHeroMedia();
   wireAboutToggle();
+  wireOwnerModal();
 }
 
 document.addEventListener("DOMContentLoaded", init);

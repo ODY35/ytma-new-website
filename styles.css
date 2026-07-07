@@ -114,6 +114,22 @@ select{background:#151515;color:#fff;border:1px solid rgba(212,175,55,0.35);bord
 .btn-outline{
   border:1px solid rgba(212,175,55,0.5);background:transparent;color:var(--white);padding:8px 10px;border-radius:999px;font-weight:600
 }
+.btn-admin{
+  border:2px solid var(--gold);
+  background:linear-gradient(180deg, var(--gold-soft), var(--gold));
+  color:#111;
+  font-weight:800;
+  padding:8px 14px;
+  border-radius:999px;
+  cursor:pointer;
+  box-shadow:0 4px 12px rgba(212,175,55,0.4);
+  transition:transform .1s ease;
+}
+.btn-admin:hover{
+  transform:translateY(-2px);
+  box-shadow:0 6px 16px rgba(212,175,55,0.6);
+}
+
 .btn-buy{flex:1}
 
 .site-footer{padding:24px;background:#0c0c0c;border-top:1px solid rgba(212,175,55,0.35)}
@@ -136,7 +152,21 @@ select{background:#151515;color:#fff;border:1px solid rgba(212,175,55,0.35);bord
 .tab-pane.active{display:block}
 .row{display:flex;gap:8px}
 .row label{flex:1}
- 
+
+.owner-modal{max-height:85vh;overflow-y:auto}
+.owner-tabs{display:flex;gap:8px;margin-bottom:12px}
+.owner-tab{padding:8px 12px;border:1px solid rgba(212,175,55,0.35);border-radius:999px;background:#151515;color:#fff;cursor:pointer}
+.owner-tab.active{border-color:var(--gold);background:linear-gradient(180deg,var(--red),var(--red-deep))}
+.owner-tab-pane{display:none}
+.owner-tab-pane.active{display:block}
+.owner-list{display:flex;flex-direction:column;gap:8px;max-height:300px;overflow-y:auto}
+.owner-list-item{display:flex;justify-content:space-between;align-items:center;padding:8px;background:#151515;border:1px solid rgba(212,175,55,0.25);border-radius:8px}
+.owner-list-item span{font-weight:600}
+.owner-list-item button{padding:6px 12px;border:1px solid var(--red);background:transparent;color:var(--red);border-radius:8px;cursor:pointer}
+label{display:flex;flex-direction:column;gap:6px;margin:8px 0}
+label span{font-weight:600}
+label input, label select{background:#151515;color:#fff;border:1px solid rgba(212,175,55,0.35);border-radius:8px;padding:8px}
+
 @media (max-width:900px){
   .hero h2{font-size:44px}
   .about-layout{grid-template-columns:1fr}
